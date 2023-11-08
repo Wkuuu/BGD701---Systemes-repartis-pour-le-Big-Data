@@ -11,7 +11,7 @@ def main():
     """
 
     # Adresse IP ou nom d'hôte du serveur
-    host = 'tp-1a252-17.enst.fr'
+    host = 'tp-1a260-08.enst.fr'
 
     # Numéro de port du serveur
     port = 65044

@@ -45,15 +45,17 @@ def send_receive_worker_to_other_workers(workers_list, type):
             continue
         responses.append(response.decode())
 
+    # A VIRER
     # Attendre avant de continuer
-    time.sleep(2)
+    # time.sleep(2)
 
     # Envoyer un message 'Bye' à tous les workers
     for client_socket in client_sockets:
         send_one_message(client_socket, b'Bye')
 
+    # A VIRER
     # Attendre avant de terminer
-    time.sleep(2)
+    # time.sleep(2)
 
     return responses
 
@@ -97,15 +99,17 @@ def shuffle_to_other_workers(words_list_grp_worker):
             continue
         responses.append(response.decode())
 
+    # A VIRER
     # Attendre avant de continuer
-    time.sleep(2)
+    # time.sleep(2)
 
     # Envoyer un message 'Bye' à tous les workers
     for client_socket in client_sockets:
         send_one_message(client_socket, b'Bye')
 
+    # A VIRER
     # Attendre avant de terminer
-    time.sleep(2)
+    # time.sleep(2)
 
     return responses
 
@@ -135,12 +139,14 @@ def workers_functions(client_socket, message, address):
     elif message == 'workers_bonjour':
         send_one_message(client_socket, b'bonjour a toi aussi')
         print(f"Bonjour à toi aussi ami worker {address}")
-    elif message == 'workers_start_map_shuffle':
+    elif message == 'workers_start_map':
         filename = recv_one_message(client_socket).decode().strip()
-        words_list_grp_worker = words_count(
+        global_variables.words_list_grp_worker = words_count(
             filename, global_variables.workers_list_initial)
-        shuffle_to_other_workers(words_list_grp_worker)
-        send_one_message(client_socket, b'OK workers_start_map_shuffle')
+        send_one_message(client_socket, b'OK workers_start_map')
+    elif message == 'workers_start_shuffle':
+        shuffle_to_other_workers(global_variables.words_list_grp_worker)
+        send_one_message(client_socket, b'OK workers_start_shuffle')
     elif message == 'workers_shuffle_results':
         workers_list_of_words = recv_one_message(
             client_socket).decode().strip()
